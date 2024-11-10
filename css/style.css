@@ -1,0 +1,151 @@
+body {
+    background-color:#FAEBCD;
+    font-family: serif;
+
+}
+
+
+h1 {
+    color: #434343;
+    font-size: 300%;
+    text-align: center;
+
+}
+
+h3 {
+    color: #434343;
+}
+
+.buttonLogIn {
+    display:block;
+    margin: 10% auto;
+    justify-content: center;
+    background-color: #F7C873;
+    text-align: center;
+    padding: 10px 20px;
+    color: #434343;
+    font-size: 15px;
+    left: 400%;
+    border-radius: 5px;
+    border: none;
+}
+
+.logoImage {
+    display: block;
+    margin: 10% auto;
+}
+
+.emptyPhoto1 {
+    display: block;
+    max-width: 30%;
+    height: auto;
+    margin-right:auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+
+div.polaroid {
+    flex: 1 1 calc(50% - 5%); /* each photos takes 50% of the container */
+    max-width: 45%;
+    background-color:#F8F8F8;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-bottom: 20px;
+  }
+  
+div.container {
+    text-align: center;
+    padding: 4px 20px;
+  }
+
+
+div.photo-grid{
+    display:flex;
+    flex-wrap: wrap; /*items can wrap onto new lines */
+    gap: 5%; /*adds space bw photos */
+    width: 60%;
+    background-color:#F8F8F8;
+    padding: 5%;
+
+}
+
+.buttonPost {
+    margin-bottom: 15%;
+    background-color: #F7C873;
+    padding: 20px 20px;
+    color: #434343;
+    font-size: 15px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    align-self: flex-start;
+ 
+}
+
+.grid-button-wrapper{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2%;
+    width: 100%
+}
+
+.button-container {
+    padding-left: 15%;
+    padding-right: 5%;
+    padding: 10px;
+    padding-top: 5%;
+
+    background-color:#F8F8F8;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 10px;
+}
+
+/* Dropdown Button */
+.dropbtn {
+    margin-bottom: 20%;
+    background-color: #F7C873;
+    padding: 20px 20px;
+    color: #434343;
+    font-size: 15px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    align-self: flex-start;
+  }
+  
+  /* The container <div> - needed to position the dropdown content */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Dropdown Content (Hidden by Default) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color:#F7C873;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  /* Links inside the dropdown */
+  .dropdown-content a {
+    color:#434343;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover {background-color: #ddd;}
+  
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {display: block;}
+  
+  /* Change the background color of the dropdown button when the dropdown content is shown */
+  .dropdown:hover .dropbtn {background-color:#987d49;}
+
