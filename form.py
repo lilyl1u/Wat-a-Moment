@@ -1,3 +1,7 @@
+from flask import Flask, request, render_template, redirect, url_for, jsonify
+
+app = Flask(__name__)
+
 @app.route('/form', methods=['POST'])
 def form():
     fname=request.form.get('fname')
@@ -17,5 +21,7 @@ def form():
         return render_template('form.html', message=message)
     else:
       return redirect(url_for('submit', fname=fname, lname=lname))
-
+        
+if __name__ == '__main__':
+  app.run(debug=True)
 #flask / python for form
