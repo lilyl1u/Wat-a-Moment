@@ -3,19 +3,30 @@
 body {
     background-color:#FAEBCD;
     font-family: serif;
+    margin: 0;
+    padding: 0;
+    color: #434343;
 }
 
 /*style for title*/
 h1 {
     color: #434343;
-    font-size: 300%;
+    font-size: 3.5rem;
     text-align: center;
-    font-family: "Titan One";
+    font-family: "Titan One", cursive;
+    margin: 1rem 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /*style for all buttons*/
 button{
-    background-color: #F7C873
+    background-color: #F7C873;
+    border: none;
+    border-radius: 12px;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .button-text, .button-text-2{
@@ -24,42 +35,51 @@ button{
 
 /* Style for the main page container */
 .features-page {
-    display: flex; /* Use flexbox for side-by-side layout */
-    justify-content: center; /* Center the content horizontally */
-    align-items: center; /* Center the content vertically */
-    height:100vh; /* Make sure it takes up the full viewport height */
-    width:100%;
-    text-align: center;
-    border:solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    padding: 2rem;
+    box-sizing: border-box;
+    gap: 3rem;
 }
 
 /* Sidebar styling */
 .features-side-bar {
-    border: solid;
-    text-align: center;
-    margin-right: 20px; /* Space between sidebar and camera screen */
-    height: 100%; /* Make sure it takes the full height of the page */
+    border: 2px solid #767676;
+    border-radius: 16px;
+    padding: 2rem;
+    height: 90vh;
+    min-width: 300px;
     display: flex;
-    flex-direction: column; /* Stack buttons vertically */
-    justify-content: space-evenly; /* Distribute buttons evenly */
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Button styling */
 .button {
     width: 100%; /* 100% of the container (features-side-bar) */
-    height: 100%; /* Make the button take the full height */
-    padding-left: 30px;
-    padding-right: 30px;
+    margin: 0.5rem 0;
+
 }
 
 /* Camera screen styling */
 .camera-screen {
-    border: solid;
+    border: 2px solid #767676;
+    border-radius: 12px;
     display: flex;
-    justify-content: center; /* Center the image horizontally */
-    align-items: center; /* Center the image vertically */
-    width: 50%; /* Take up 50% of the page width */
-    height: 100%; /* Take up the full height */
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    height: 80vh;
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
 /* Camera image styling */
@@ -67,4 +87,5 @@ button{
     width: 100%; /* 100% of the camera-screen container */
     height: 100%; /* 100% of the camera-screen container */
     object-fit: cover; /* Ensure the image maintains its aspect ratio */
+    border-radius: 10px;
 }

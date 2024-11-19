@@ -25,26 +25,37 @@ button{
 /*style for first set of buttons*/
 .choices{
     display: flex; /*displays side-by-side*/
-    justify-content: space-between;
-    border:solid;
-    margin: 10% 10%;
+    justify-content: space-around;
+    align-items: center;
+    border: 3px solid #434343;
+    border-radius: 15px;
+    margin: 5% 10%;
+    padding: 2rem;
+    background-color: rgba(255,255,255,0.2);
 }
 
 .button{
     height:100px;
     width:150px;
     border-radius:25%/50%;
+    padding: 0.5rem 1rem;
 }
 
 /*style for second set of buttons*/
 
 .other-choices{
     display: flex; /*displays side-by-side*/
-    justify-content: space-between;
-    border:solid;
-    margin: 10% 10%;
+    justify-content: space-around;
+    align-items: center;
+    border: 3px solid #434343;
+    border-radius: 15px;
+    margin: 5% 10%;
+    padding: 2rem;
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .button-2{
-    border-radius:25%/50%;
+    border-radius: 25px/50px;
+    padding: 0.8rem 1.5rem;
+    min-width: 120px;
 }

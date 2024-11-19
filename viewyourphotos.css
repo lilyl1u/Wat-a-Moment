@@ -1,0 +1,72 @@
+body {
+    background-color:#FAEBCD;
+    font-family: 'Georgia', serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 2px;
+    color: #434343;
+
+}
+
+
+h1 {
+    color: #434343;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    text-align: center;
+    margin: 2rem 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    letter-spacing: 0.02em;
+
+}
+
+h3 {
+    color: #434343;
+    font-size: 1.5rem;
+    margin: 1rem 0;
+    font-weight: 550;
+}
+
+
+.emptyPhoto1 {
+    display: block;
+    max-width: 30%;
+    height: auto;
+    margin-right:auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    transition: transform 0.3s ease, box-shadow 0.3s, ease;
+
+}
+
+
+div.polaroid {
+    flex: 1 1 calc(50% - 5%); /* each photos takes 50% of the container */
+    max-width: 45%;
+    background-color:#F8F8F8;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-bottom: 20px;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3 ease;
+  }
+  
+div.container {
+    text-align: center;
+    padding: 4px 20px;
+    background-color: #F8F8F8;
+  }
+
+
+div.photo-grid{
+    display:flex;
+    flex-wrap: wrap; /*items can wrap onto new lines */
+    gap: 2rem; /*adds space bw photos */
+    width: 80%;
+    max-width: 1200px;
+    background-color:#F8F8F8;
+    padding: 2rem;
+    margin: 0 auto;
+    border-radius: 16px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+
+}
+
