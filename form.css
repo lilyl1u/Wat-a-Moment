@@ -22,6 +22,15 @@ body{
     width:150px;
 }
 
+
+.buttonHomepage{
+    margin-top: 10px;
+    background-color: #F7C873;
+    color: #434343;
+    width:150px;
+}
+
+
 .entire-form{
     padding:50px;
     display:flex;
