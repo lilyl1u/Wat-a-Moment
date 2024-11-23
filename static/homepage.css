@@ -35,8 +35,6 @@ header h1 {
 .logoImage {
     width: 200px;
     height: auto;
-    margin-top: -20px;
-    margin-bottom: 50px;
     border-radius: 50%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -83,5 +81,3 @@ header h1 {
         font-size: 3rem;
     }
 }
-
-
