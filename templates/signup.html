@@ -18,9 +18,17 @@
           <input class="form-button"  type="password" name="password" placeholder="Password" required> <br>
           <input class="form-button" type="submit" value="Create account" id="submit-button">
         </form>
+
         {% if message %}
         <p style="color: red;">{{ message }}</p>
         {% endif %}
+
+      {# {% if %}#}
+          <a href="{{ url_for('dash_board')}}">
+          
+          </a>
+      {#{% endif %}#}
+
     </div>
 
     <a href="{{ url_for('index')}}">
