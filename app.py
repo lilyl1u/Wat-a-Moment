@@ -111,6 +111,10 @@ def view_your_photos():
 def dash_board():
     return render_template('dashboard.html')
 
+@app.route('/scroll')
+def scroll():
+    return render_template('scroll.html')
+
 @app.route('/viewclassphotos')
 def view_class_photos():
     return render_template('viewclassphotos.html')
