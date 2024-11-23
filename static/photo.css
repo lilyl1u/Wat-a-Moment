@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Squada+One&display=swap');
 body {
     background-color:#FAEBCD;
-    font-family: serif;
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
     color: #434343;
@@ -10,12 +10,12 @@ body {
 
 /*style for title*/
 h1 {
-    color: #434343;
+    color: #2D2D2D;
     font-size: 3.5rem;
     text-align: center;
     font-family: "Titan One", cursive;
-    margin: 1rem 0;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 1.5rem 0;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.15);
 }
 
 /*style for all buttons*/
@@ -25,8 +25,11 @@ button{
     border-radius: 12px;
     padding: 0.75rem 1.5rem;
     cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: "Squada One", sans-serif;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #2D2D2D;
 }
 
 .button-text, .button-text-2{
@@ -43,6 +46,7 @@ button{
     padding: 2rem;
     box-sizing: border-box;
     gap: 3rem;
+    flex-wrap: wrap; /* Allows items to stack if needed */
 }
 
 /* Sidebar styling */
@@ -50,8 +54,10 @@ button{
     border: 2px solid #767676;
     border-radius: 16px;
     padding: 2rem;
-    height: 90vh;
-    min-width: 300px;
+    min-height: 50vh;
+    min-width: 250px; /* Set a minimum width */
+    max-width: 300px; /* Prevent it from getting too wide */
+    flex: 1; /* Allow it to shrink and grow as needed */
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -62,30 +68,80 @@ button{
 
 /* Button styling */
 .button {
-    width: 100%; /* 100% of the container (features-side-bar) */
-    margin: 0.5rem 0;
+    width: 100%;
+    margin: 0.75rem 0;
+    font-size: 1rem;
+    text-align: center;
 
 }
 
-/* Camera screen styling */
 .camera-screen {
-    border: 2px solid #767676;
-    border-radius: 12px;
+    flex: 3; /* Take more space compared to the sidebar */
+    border: 3px solid #767676;
+    border-radius: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 70%;
-    height: 80vh;
-    background-color: rgba(255, 255, 255, 0.5);
+    width: 70%; /* Use percentages for responsiveness */
+    max-width: 800px; /* Prevent it from becoming too large */
+    aspect-ratio: 16 / 9; /* Maintain a consistent aspect ratio */
+    background-color: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(8px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
     overflow: hidden;
+    min-width: 300px; /* Prevent shrinking too much */
+    min-height: 200px; /* Ensure visibility on smaller screens */
 }
 
 /* Camera image styling */
 #user-camera {
-    width: 100%; /* 100% of the camera-screen container */
-    height: 100%; /* 100% of the camera-screen container */
-    object-fit: cover; /* Ensure the image maintains its aspect ratio */
-    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+
+/* Countdown display styling */
+#countdown-display {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: rgba(247, 200, 115, 0.8);
+    color: #434343;
+    font-family: "Squada One", sans-serif;
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Button on hover effects for homepage navigation */
+.buttonHomepage {
+    margin-top: 1rem;
+    width: 100%;
+    text-align: center;
+}
+
+.buttonHomepage:hover {
+    background-color: #D4A15C;
+    transform: scale(1.05);
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+    .features-page {
+        flex-direction: column; /* Stack items vertically */
+        gap: 2rem;
+    }
+
+    .features-side-bar {
+        width: 90%; /* Make sidebar take most of the screen width */
+        align-self: center; /* Center the sidebar */
+    }
+
+    .camera-screen {
+        width: 90%; /* Ensure it doesn't exceed the screen */
+        align-self: center;
+    }
 }
