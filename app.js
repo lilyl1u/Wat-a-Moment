@@ -23,7 +23,7 @@ dotenv.config(); //access when needed
 
 
 app.use(session({
-  secret: process.env.SESSION_SECRET,
+  secret: 'watamoment123',
   resave: true,
   saveUninitialized: false,
   cookie: {
@@ -351,6 +351,19 @@ app.post('/wamUserLogin', function (req, res) {
 })
 //LOGOUT
 app.post('/logout', (req, res) => {
+  if (req.session) {
+    req.session.destroy((err) => {
+      if (err) {
+        return res.status(500).send('Logout failed.');
+      }
+      res.status(200).send('Logged out successfully.');
+    });
+  } else {
+    res.status(400).send('No active session.');
+  }
+});
+/*
+app.post('/logout', (req, res) => {
   console.log("[POST] Logout endpoint hit");
   if (req.session.loggedin) {
     req.session.destroy((err) => {
@@ -367,6 +380,7 @@ app.post('/logout', (req, res) => {
     res.status(400).send('You are not logged in.');
   }
 });
+*/
 
 app.post('/sync-session', (req, res) => {
   const { username } = req.body;
