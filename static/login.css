@@ -1,6 +1,13 @@
 body{
     background-color: #FAEBCD;
     color: #434343;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .form-body{
@@ -8,26 +15,43 @@ body{
     flex-direction:column;
     justify-content:center;
     align-items:center;
+    width: 100%;
 }
 
 .form-button{
-    padding:20px;
-    margin:5px 0px;
-    width:300px;
+    padding: 20px;
+    margin: 5px 0;
+    width: 300px; /* Standard width for buttons */
+    border: 2px solid #F7C873; /* Border with matching color */
+    border-radius: 5px; /* Rounded corners for the button */
+    font-size: 16px;
+    color: #434343; /* Text color */
+    text-align: center;
+    background-color: transparent; /* Transparent background */
+    transition: background-color 0.3s ease; /* Smooth background color transition */
 }
 
 #submit-button{
-    background-color: #F7C873;
-    color: #434343;
-    width:150px;
+    background-color: #F7C873; /* Yellow background */
+    color: #434343; /* Dark text color */
+    width: 150px;
+    padding: 16px;
+    border-radius: 5px;
+    font-size: 16px;
+    border: none; /* Remove border */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth hover effect */
 }
 
 
 .buttonHomepage{
-    margin-top: 10px;
+    margin-top: 20px;
     background-color: #F7C873;
     color: #434343;
     width:150px;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
 
@@ -38,4 +62,9 @@ body{
     justify-content:center;
     align-items:center;
     margin:50px 0px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
 }

@@ -1,14 +1,20 @@
 body {
     background-color:#FAEBCD;
-    font-family: serif;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
 }
 
 
 h1 {
     color: #434343;
-    font-size: 300%;
+    font-size: 3rem;
     text-align: center;
+    margin-top: 40px;
 
 }
 
@@ -59,17 +65,17 @@ div.container {
   }
 
 
-div.photo-grid{
+.photo-grid{
     display:flex;
     flex-wrap: wrap; /*items can wrap onto new lines */
-    gap: 5%; /*adds space bw photos */
-    width: 60%;
-    background-color:#F8F8F8;
-    padding: 5%;
+    gap: 20px; /*adds space bw photos */
+    width: 80%;
+    justify-content: center;
+    margin: 30px 0;
 
 }
 
-.buttonPost {
+.buttonPost, .dropbtn, .buttonHomepage {
     margin-bottom: 15%;
     background-color: #F7C873;
     padding: 20px 20px;

@@ -5,39 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wat-a-Moment</title>
 
-    
-    <link rel ="stylesheet" href ="{{ url_for('static', filename='homepage.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='homepage.css') }}"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" 
     integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" 
     crossorigin="anonymous" 
-    referrerpolicy="no-referrer"  />
-    
+    referrerpolicy="no-referrer" />
 </head>
 
 <body>
+    <header>
+        <h1>Waterloo's First Digital Photobooth</h1>
+    </header>
 
- 
-
-    <h1>Waterloo's First Digital Photobooth</h1>
-
-    <div class="logo-container">
-        <img class="logoImage" src="static/photos/logo.jpg" alt="Wat-Moment logo">
-        <div class="logo-decoration"></div>
+    <div class="content-container">
+        <div class="logo-container">
+            <img class="logoImage" src="static/photos/logo.jpg" alt="Wat-Moment logo">
         </div>
 
+        <div class="buttons-container">
+            <a href="{{ url_for('login') }}">
+                <button class="buttonLogIn">Log in</button>
+            </a>
+
+            <a href="{{ url_for('signup') }}">
+                <button class="buttonLogIn">Create Account</button>
+            </a>
+        </div>
     </div>
-
-    <a href="{{ url_for('login')}}">
-        <button class="buttonLogIn">
-        Log in 
-        </button>
-    </a>
-
-    <a href="{{ url_for('signup')}}">
-        <button class="buttonLogIn">
-        Create Account 
-        </button>
-    </a>
-    
 </body>
 </html>
