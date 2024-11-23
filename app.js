@@ -17,8 +17,11 @@ app.use(cors()); //incoming api call blocked to send data to backend
 
 //login sessions for multiple users
 const session = require('express-session');
+
 const dotenv = require('dotenv'); //for secure sessions
 dotenv.config(); //access when needed
+
+
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: true,
@@ -40,10 +43,43 @@ const db = mysql.createPool({ //connect sql database
 });
 db.getConnection((err) => {
   if (err) {
-    throw err;
+    console.error("[DB] Connection error:", err.message);
   }
-  console.log("mysql pool connected");
+  console.log("[DB] mysql pool connected");
 });
+/*
+app.use((req, _, next) => {
+  console.log(`[${req.method}] ${req.url} - Body: ${JSON.stringify(req.body)}`);
+  next();
+});
+
+const MySQLStore = require('express-mysql-session')(session);
+const sessionStore = new MySQLStore({
+  host: 'riku.shoshin.uwaterloo.ca',
+  user: 'a498wang',
+  password: 'dbz4SLMtIM0bdgn8Q0%0',
+  database: 'db101_a498wang',
+  clearExpired: true,
+  checkExpirationInterval: 900000,
+});
+
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'default_secret',
+  resave: false,
+  saveUninitialized: false,
+  store: sessionStore,
+  cookie: {
+    secure: false,
+    httpOnly: true,
+    maxAge: 600000,
+  },
+}));
+
+console.log(`[POST] /wamUserLogin - Attempting login for user: ${username}`);
+console.log(`[POST] /sync-session - Body: ${JSON.stringify(req.body)}`);
+console.log(`[POST] Logout endpoint hit`);
+*/
+
 
 
 //===SQL FUNCTIONS===
@@ -55,13 +91,19 @@ class DBService {
 
   //get user by username
   async getWamUser(username) { /*async means that the function is asynchronous - the following async functions will return a Promise. The await keyword is used so the asynchronous queries complete (Promise resolves or rejects) before moving on to the next step*/
+    console.log(`[DBService] Fetching user: ${username}`); //new code from chat
     try {
       /*a Promise is an operation that has yet to be executed. Takes 2 arguments which are the resolve and reject functions - these functions resolve the promise with a value if fulfilled, or returns an error if rejected */
       const response = await new Promise((resolve, reject) => {
         const sql = "SELECT * FROM wamUsers WHERE username = ?;";
         db.query(sql, [username], (err, result) => { //callback function to handle resolving or rejecting the Promise
-          if (err) reject(new Error(err.message)); //falls back to catch
-          resolve(result); 
+          if (err) {
+            console.error(`[DBService] Error fetching user: ${err.message}`);
+            reject(err);
+          } else {
+            console.log(`[DBService] User data retrieved: ${JSON.stringify(result)}`);
+            resolve(result);
+          }
         });
       });
       console.log(response);
@@ -72,6 +114,7 @@ class DBService {
 
   //create new user
   async createWamUser(username, password, classCode, firstName, lastName) { //the private photos aren't implemented here directly - instead, in the folder of all photos, each photo will be attributed to a specific user. When the same photo is shared to multiple accounts, those photos will be copies of each other that can be modified and accessed sepearately
+    console.log(`[DBService] Creating user: ${username}`);
     try {
       await new Promise((resolve, reject) => {
         const sql = "INSERT INTO wamUsers (username, password, classCode, firstName, lastName) VALUES (?,?,?,?,?);";
@@ -221,30 +264,38 @@ app.get('/api/logged-in-user', (req, res) => {
 //get a single wamuser by username
 app.get('/getWamUser/:username', (req, res) => {
   const { username } = req.params;
+  console.log(`[GET] /getWamUser/${username}`);
   const instanceDB = DBService.getDBServiceInstance();
   const result = instanceDB.getWamUser(username); //calls function from DBService class
   result
   .then(data => {
     if (data.length > 0) {
+      console.log(`[GET] User found: ${username}`);
       res.json({
         success: true,
         message: 'User data retrieved',
         data: data[0] // Access the first user object from the array (since expectng only 1)
       });
+      console.log(message);
     } else {
+      console.log(`[GET] User not found: ${username}`);
       res.status(404).json({
         success: false,
         message: 'User not found',
         data: null
       });
+      console.log(message);
     }
   })
-  .catch(err => res.status(500).json({
+  .catch(err => {
+    console.error(`[GET] Error retrieving user: ${err.message}`);
+    res.status(500).json({
     success: false,
     message: 'Failed to retrieve user',
     data: null,
     error: err.message
-  }));
+  });
+});
 });
 
 
@@ -278,51 +329,95 @@ app.get('/getPublicPhotos/:classCode', (req, res) => {
 //LOGIN
 app.post('/wamUserLogin', function (req, res) {
   //retrieve username and password from user input
-  username = req.body.wamUserId;
-  password = req.body.password;
+  const username = req.body.username;
+  const password = req.body.password;
   if (username && password) {
-    db.query(`SELECT (password) FROM wamUsers WHERE wamUserId = ? AND password = ?`, [username, password], function (error, results) {
-      if (error) throw error;
+    db.query(`SELECT password FROM wamUsers WHERE username = ? AND password = ?`, [username, password], function (error, results) {
+      if (error){
+        console.error(error);
+        return res.status(500).json({ error: 'Internal server error' });
+        
+      }
       //if account exists:
       if (results.length > 0) {
         req.session.loggedin = true;
         req.session.username = username;
-        res.redirect('/dashboard');
-      }
-      else {
-        res.send('Incorrect Username and/or Password!'); //error message - change later
+        return res.json({ message: 'Login successful', redirect: '/dashboard' });
+        } else {
+            return res.status(401).json({ error: 'Incorrect username or password' });
       }
     })
   }
 })
 //LOGOUT
 app.post('/logout', (req, res) => {
+  console.log("[POST] Logout endpoint hit");
   if (req.session.loggedin) {
     req.session.destroy((err) => {
       if (err) {
-        console.error(err);
+        console.error("[POST] Logout error:", err.message);
+        res.status(500).send('An error occurred while logging out.');
+      } else {
+        console.log("[POST] Logout successful");
+        res.status(200).send('Logged out successfully.');
+      }
+    });
+  } else {
+    console.log("[POST] Logout attempt without session");
+    res.status(400).send('You are not logged in.');
+  }
+});
+
+app.post('/sync-session', (req, res) => {
+  const { username } = req.body;
+  if (!username) {
+      console.log("[POST] Sync session: Missing username in request.");
+      return res.status(400).send("Missing username.");
+  }
+
+  req.session.loggedin = true;
+  req.session.username = username;
+  console.log(`[POST] Sync session: User logged in as ${username}`);
+  res.status(200).send("Session synchronized successfully.");
+});
+/*
+app.post('/logout', (req, res) => {
+  if (req.session.loggedin) {
+    req.session.destroy((err) => {
+      if (err) {
+        console.error("[POST] Logout error:", err.message);
         res.status(500).send('An error occurred while logging out.');
       } else {
         res.status(200).send('Logged out successfully.');
       }
     });
   } else {
+    console.log("[POST] Logout attempt without session");
     res.status(400).send('You are not logged in.');
     //redirect 
   }
 });
+*/
 
 
 
 //create Wam User
 app.post('/createWamUser', (req, res) =>{
+  
   const { username, password, classCode, firstName, lastName } = req.body;
+  console.log(`[POST] /createWamUser - Payload: ${JSON.stringify(req.body)}`);
   const instanceDB = DBService.getDBServiceInstance();
   const result = instanceDB.createWamUser(username, password, classCode, firstName, lastName); //front end checked if password length is >1 and if classCode = SE101
   result
-    .then(data => res.json({success: true, message: 'Account created', data: data}))
-    .catch(err => console.log(err));
-})
+    .then(data => {
+      console.log(`[POST] User created successfully: ${username}`);
+      res.json({success: true, message: 'Account created', data: data}) 
+    })
+    .catch(err => {
+      console.error(`[POST] Error creating user: ${err.message}`);
+      res.status(500).json({ success: false, message: 'Failed to create user', error: err.message });
+    });
+});
 
 //update class code
 app.post('/updateClassCode', (req, res) =>{
