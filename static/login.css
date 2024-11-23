@@ -68,3 +68,46 @@ body{
     width: 100%;
     max-width: 400px;
 }
+
+
+/*
+body {
+  background-color: #faebcd;
+  color: #434343;
+}
+
+.form-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-button {
+  padding: 20px;
+  margin: 5px 0px;
+  width: 300px;
+}
+
+#submit-button {
+  background-color: #f7c873;
+  color: #434343;
+  width: 150px;
+}
+
+.buttonHomepage {
+  margin-top: 10px;
+  background-color: #f7c873;
+  color: #434343;
+  width: 150px;
+}
+
+.entire-form {
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 50px 0px;
+}
+*/

@@ -22,7 +22,7 @@
 
         <!-- wrap this up in a flex box that takes the code to another html page called view your photos -->
         <div class="box" id="view-photo">
-            <a href="{{ url_for('view_your_photos') }}">
+            <a href="{{ url_for('viewyourphotos') }}">
                 <button class ="button">
                     <p class="button-text">VIEW YOUR PHOTOS</p>
                 </button>
@@ -32,8 +32,8 @@
 
         <!-- wrap this up in a flex box that takes the code to another html page called view your photos-->
         <div class="box" id="class-photo">
-            <a href="{{ url_for('view_class_photos') }}">
-                <button class ="button" href="viewclassphotos.html">
+            <a href="{{ url_for('viewclassphotos') }}">
+                <button class ="button">
                     <p class="button-text">VIEW CLASS PHOTOS</p>
                 </button>
             </a>
@@ -48,11 +48,15 @@
         </div>
 
         <div class="box-2">
-            <a href="{{ url_for('index') }}">
+            <form id="logout-form" action="/logout" method="POST">
                 <button class ="button-2">
                     <p class="button-text-2">LOG OUT</p>
                 </button>
-            </a>
+            </form>
+
+            {% if message %}
+      <p style="color: red;">{{ message }}</p>
+      {% endif %}
         </div>
     </div>
   </body>
