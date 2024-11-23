@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Wat-A-Moment</title>
-    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
   </head>
 
   <body>
@@ -13,7 +13,7 @@
     <div class="choices">
 
         <div class="box" >
-            <a href="photo.html">
+            <a href="{{ url_for('photo') }}">
                 <button class ="button"  id="take-photo">
                     <p class="button-text">TAKE A PHOTO</p>
                 </button>
@@ -22,7 +22,7 @@
 
         <!-- wrap this up in a flex box that takes the code to another html page called view your photos -->
         <div class="box" id="view-photo">
-            <a href="viewyourphotos.html">
+            <a href="{{ url_for('viewyourphotos') }}">
                 <button class ="button">
                     <p class="button-text">VIEW YOUR PHOTOS</p>
                 </button>
@@ -32,7 +32,7 @@
 
         <!-- wrap this up in a flex box that takes the code to another html page called view your photos-->
         <div class="box" id="class-photo">
-            <a href="viewclassphotos.html">
+            <a href="{{ url_for('viewclassphotos') }}">
                 <button class ="button" href="viewclassphotos.html">
                     <p class="button-text">VIEW CLASS PHOTOS</p>
                 </button>
@@ -48,7 +48,7 @@
         </div>
 
         <div class="box-2">
-            <a href="index.html">
+            <a href="{{ url_for('index') }}">
                 <button class ="button-2">
                     <p class="button-text-2">LOG OUT</p>
                 </button>

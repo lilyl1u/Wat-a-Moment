@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Post Photo</title>
-    <link rel ="stylesheet" href ="viewyourphotos.css" />
+    <link rel ="stylesheet" href ="{{ url_for('static', filename='viewyourphotos.css') }}" />
 </head>
 <body>
     <h1>Hey gorgeous! Here are your photos!</h1>
@@ -13,35 +13,35 @@
 
         <div class = "photo-grid">
             <div class="polaroid">
-                <img src="emptyPhoto.jpg" alt="photo placeholder" 
+                <img src="static/photos/emptyPhoto.jpg" alt="photo placeholder" 
                 style="width:100%">
                 <div class="container">
                 <p>Looking cute! </p>
                 </div>
             </div>
             <div class="polaroid">
-                <img src="emptyPhoto.jpg" alt="photo placeholder" 
+                <img src="static/photos/emptyPhoto.jpg" alt="photo placeholder" 
                 style="width:100%">
                 <div class="container">
                 <p>#goals!!! </p>
                 </div>
             </div>
             <div class="polaroid">
-                <img src="emptyPhoto.jpg" alt="photo placeholder" 
+                <img src="static/photos/emptyPhoto.jpg" alt="photo placeholder" 
                 style="width:100%">
                 <div class="container">
                 <p>omg baddiee</p>
                 </div>
             </div>
             <div class="polaroid">
-                <img src="emptyPhoto.jpg" alt="photo placeholder" 
+                <img src="static/photos/emptyPhoto.jpg" alt="photo placeholder" 
                 style="width:100%">
                 <div class="container">
                 <p>stunner! </p>
                 </div>
             </div>
         </div>
-        <a href="index.html">
+        <a href="{{ url_for('index')}}">
             <button class="buttonHomepage">
             Back to home page
             </button>

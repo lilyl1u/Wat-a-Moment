@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Form</title>
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
   </head>
 </body>
 
@@ -22,7 +22,7 @@
           { % endif % }
     </div>
   
-    <a href="index.html">
+    <a href="{{ url_for('index')}}">
       <button class="buttonHomepage">
       Back to home page
       </button>

@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>WAT-A-MOMENT</title>
-    <link rel="stylesheet" href="photo.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='photo.css') }}">
   </head>
 
   <body>
@@ -40,13 +40,13 @@
         <img src="./photo.jpg" alt="user-camera" id="user-camera">
     </div>
 
-    <a href="index.html">
+    <a href="{{ url_for('index')}}">
         <button class="buttonHomepage">
         Back to home page
         </button>
     </a>
 
-    <a href="post-photo.html">
+    <a href="{{ url_for('postphoto')}}">
         <button class="buttonHomepage">
         Click to continue on your photo journey!
         </button>

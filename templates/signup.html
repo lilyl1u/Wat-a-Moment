@@ -1,12 +1,11 @@
-<!DOCTYPE html>
 <html lang="en">
   <head> 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Sign up</title>
-    <link rel="stylesheet" href="signup.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='signup.css') }}">
   </head>
-</body>
+<body>
 
 <div class="entire-form">
     <h1>Create an Account</h1>
@@ -15,17 +14,18 @@
           <input class="form-button" id = "firstname" type="text" name="fname" placeholder="First Name" required> <br>
           <input class="form-button" id = "lastname" type="text" name="lname" placeholder="Last Name" required> <br>
           <input class="form-button" id = "username" type="text" name="username" placeholder="Username" required> <br>
-          <input class="form-button" id="classCod" type="text" name="classroomcode" placeholder="Classroom code" required> <br>
+          <input class="form-button" id="classCode" type="text" name="classroomcode" placeholder="Classroom code" required> <br>
           <input class="form-button" id="password" type="password" name="create password" placeholder="Password" required> <br>
-      </form>
-          {% if %}
-          <a href="dashboard.html">
           <input class="form-button" type="submit" value="Create account" id="submit-button">
+        </form>
+      {# {% if %}#}
+          <a href="{{ url_for('dashboard')}}">
+          
           </a>
-          {% endif %}
+      {#{% endif %}#}
     </div>
 
-    <a href="index.html">
+    <a href="{{ url_for('index')}}">
       <button class="buttonHomepage">
       Back to home page
       </button>

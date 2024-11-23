@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Post Photo</title>
-    <link rel ="stylesheet" href ="post-photo.css" />
+    <link rel ="stylesheet" href ="{{ url_for('static', filename='post-photo.css') }}"/>
 </head>
 <body>
     <h1>Wat-a-Moment</h1>
@@ -15,34 +15,42 @@
     <div class="grid-button-wrapper">
 
         <div class = "photo-grid">
+          {#{% for caption in captions %}#}
             <div class="polaroid">
-                <img src="emptyPhoto.jpg" alt="photo placeholder" 
-                style="width:100%">
+              <img src="static/photos/emptyPhoto.jpg" alt="photo placeholder" 
+              style="width:100%">
                 <div class="container">
-                <p>Photo 1 out of 4 </p>
+                <p>Photo 1 of 4</p>
+                <p>{{ captions[0] }} </p>
                 </div>
             </div>
+            
             <div class="polaroid">
-                <img src="emptyPhoto.jpg" alt="photo placeholder" 
+                <img src="static/photos/emptyPhoto.jpg" alt="photo placeholder" 
                 style="width:100%">
                 <div class="container">
                 <p>Photo 2 out of 4 </p>
+                <p>{{ captions[1] }} </p>
                 </div>
             </div>
             <div class="polaroid">
-                <img src="emptyPhoto.jpg" alt="photo placeholder" 
+                <img src="static/photos/emptyPhoto.jpg" alt="photo placeholder" 
                 style="width:100%">
                 <div class="container">
                 <p>Photo 3 out of 4 </p>
+                <p>{{ captions[2] }} </p>
                 </div>
             </div>
             <div class="polaroid">
-                <img src="emptyPhoto.jpg" alt="photo placeholder" 
+                <img src="static/photos/emptyPhoto.jpg" alt="photo placeholder" 
                 style="width:100%">
                 <div class="container">
                 <p>Photo 4 out of 4 </p>
+                <p>{{ captions[3] }} </p>
+
                 </div>
             </div>
+            {#{% end for%}#}
         </div>
 
         <div class="button-container">
@@ -75,7 +83,7 @@
                 </div>
               </div>
 
-              <a href="index.html">
+              <a href="{{ url_for('index')}}">
                 <button class="buttonHomepage">
                 Back to home page
                 </button>

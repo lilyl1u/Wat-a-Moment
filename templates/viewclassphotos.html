@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Post Photo</title>
-    <link rel ="stylesheet" href ="post-photo.css" />
+    <link rel ="stylesheet" href ="{{ url_for('static', filename='viewclassphotos.css') }}" />
 </head>
 <body>
     <h1>-A custom collection of your class photos-</h1>
@@ -13,28 +13,28 @@
 
         <div class = "photo-grid">
             <div class="polaroid">
-                <img src="emptyPhoto.jpg" alt="photo placeholder" 
+                <img src="static/photos/emptyPhoto.jpg" alt="photo placeholder" 
                 style="width:100%">
                 <div class="container">
                 <p>cute! </p>
                 </div>
             </div>
             <div class="polaroid">
-                <img src="emptyPhoto.jpg" alt="photo placeholder" 
+                <img src="static/photos/emptyPhoto.jpg" alt="photo placeholder" 
                 style="width:100%">
                 <div class="container">
                 <p>#goals!!! </p>
                 </div>
             </div>
             <div class="polaroid">
-                <img src="emptyPhoto.jpg" alt="photo placeholder" 
+                <img src="static/photos/emptyPhoto.jpg" alt="photo placeholder" 
                 style="width:100%">
                 <div class="container">
                 <p>omg baddiee</p>
                 </div>
             </div>
             <div class="polaroid">
-                <img src="emptyPhoto.jpg" alt="photo placeholder" 
+                <img src="static/photos/emptyPhoto.jpg" alt="photo placeholder" 
                 style="width:100%">
                 <div class="container">
                 <p>stunner! </p>
@@ -42,7 +42,7 @@
             </div>
         </div>
         </div>
-        <a href="index.html">
+        <a href="{{ url_for('index')}}">
             <button class="buttonHomepage">
             Back to home page
             </button>
