@@ -112,6 +112,29 @@ class DBService {
     catch (error) { console.log(error); }
   }
 
+    //get all users under one class code
+    async getAllUsers(classCode) { /*async means that the function is asynchronous - the following async functions will return a Promise. The await keyword is used so the asynchronous queries complete (Promise resolves or rejects) before moving on to the next step*/
+      console.log(`[DBService] Fetching users in: ${classCode}`); //new code from chat
+      try {
+        /*a Promise is an operation that has yet to be executed. Takes 2 arguments which are the resolve and reject functions - these functions resolve the promise with a value if fulfilled, or returns an error if rejected */
+        const response = await new Promise((resolve, reject) => {
+          const sql = "SELECT * FROM wamUsers WHERE classCode = ?;";
+          db.query(sql, [classCode], (err, result) => { //callback function to handle resolving or rejecting the Promise
+            if (err) {
+              console.error(`[DBService] Error fetching users: ${err.message}`);
+              reject(err);
+            } else {
+              console.log(`[DBService] User data retrieved: ${JSON.stringify(result)}`);
+              resolve(result);
+            }
+          });
+        });
+        console.log(response);
+        return response; //this returns an array of objects representing the rows in the SQL table
+      }
+      catch (error) { console.log(error); }
+    }
+
   //create new user
   async createWamUser(username, password, classCode, firstName, lastName) { //the private photos aren't implemented here directly - instead, in the folder of all photos, each photo will be attributed to a specific user. When the same photo is shared to multiple accounts, those photos will be copies of each other that can be modified and accessed sepearately
     console.log(`[DBService] Creating user: ${username}`);
@@ -320,8 +343,18 @@ app.get('/getPublicPhotos/:classCode', (req, res) => {
 //TODO
 //app.get for checking if a user already exists, returning true/false
 
-
-
+//===POST ROUTER===
+// Fetch all users under a class code
+app.get('/getAllUsers/:classCode', (req, res) => {
+  const instanceDB = DBService.getDBServiceInstance();
+  const result = instanceDB.getAllUsers(classCode); // Calls function from DBService class
+  result
+    .then(users => res.json(users)) // Sends the array of usernames directly
+    .catch(err => {
+      console.error("[Error] Fetching usernames:", err);
+      res.status(500).json({ success: false, message: "Failed to fetch usernames", error: err.message });
+    });
+});
 
 
 

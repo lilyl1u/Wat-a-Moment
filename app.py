@@ -4,8 +4,8 @@ import requests
 import random
 import time
 from mysql.connector import Error
-#import pymysql
-#from flask_session import Session
+import pymysql
+from flask_session import Session
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Needed for session handling
@@ -288,14 +288,13 @@ def dashboard():
 def photo():
     return render_template('photo.html')
 
-@app.route('/viewclassphotos')
+@app.route('/classphotos')
 def viewclassphotos():
     return render_template('viewclassphotos.html')
 
-@app.route('/viewyourphotos')
+@app.route('/yourphotos')
 def viewyourphotos():
     return render_template('viewyourphotos.html')
-
 
 comments = [
         "cutie!", "stunner!", "looking gorgeous!", "amazing!", 
