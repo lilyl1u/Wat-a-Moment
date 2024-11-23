@@ -288,13 +288,14 @@ def dashboard():
 def photo():
     return render_template('photo.html')
 
-@app.route('/classphotos')
+@app.route('/viewclassphotos')
 def viewclassphotos():
     return render_template('viewclassphotos.html')
 
-@app.route('/yourphotos')
+@app.route('/viewyourphotos')
 def viewyourphotos():
     return render_template('viewyourphotos.html')
+
 
 comments = [
         "cutie!", "stunner!", "looking gorgeous!", "amazing!", 
