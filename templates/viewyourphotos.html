@@ -9,37 +9,33 @@
 <body>
     <h1>Hey gorgeous! Here are your photos!</h1>
     
+    {% if error %}
+    <div class="error-message">{{ error }}</div>
+    {% endif %}
+
     <div class="grid-button-wrapper">
 
         <div class = "photo-grid">
+            {% if photos %}
+            {% for photo, comment in zip(photos, comments) %}
             <div class="polaroid">
                 <img src="static/photos/emptyPhoto.jpg" alt="photo placeholder" 
                 style="width:100%">
                 <div class="container">
-                <p>Looking cute! </p>
+                <p>{{ comment }} </p>
                 </div>
             </div>
+            {% endfor %}
+        {% else %}
+            {% for _ in range(4) %}
             <div class="polaroid">
-                <img src="static/photos/emptyPhoto.jpg" alt="photo placeholder" 
-                style="width:100%">
+                <img src="static/photos/emptyPhoto.jpg" alt="photo placeholder" style="width:100%">
                 <div class="container">
-                <p>#goals!!! </p>
+                    <p>No photos yet!</p>
                 </div>
             </div>
-            <div class="polaroid">
-                <img src="static/photos/emptyPhoto.jpg" alt="photo placeholder" 
-                style="width:100%">
-                <div class="container">
-                <p>omg baddiee</p>
-                </div>
-            </div>
-            <div class="polaroid">
-                <img src="static/photos/emptyPhoto.jpg" alt="photo placeholder" 
-                style="width:100%">
-                <div class="container">
-                <p>stunner! </p>
-                </div>
-            </div>
+            {% endfor %}
+        {% endif %}
         </div>
         <a href="{{ url_for('index')}}">
             <button class="buttonHomepage">
