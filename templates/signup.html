@@ -10,19 +10,25 @@
 <div class="entire-form">
     <h1>Create an Account</h1>
     <div class="form-body">
-      <form action="/createWamUser" method="POST">
-          <input class="form-button" id = "firstname" type="text" name="fname" placeholder="First Name" required> <br>
-          <input class="form-button" id = "lastname" type="text" name="lname" placeholder="Last Name" required> <br>
-          <input class="form-button" id = "username" type="text" name="username" placeholder="Username" required> <br>
-          <input class="form-button" id="classCode" type="text" name="classroomcode" placeholder="Classroom code" required> <br>
-          <input class="form-button" id="password" type="password" name="create password" placeholder="Password" required> <br>
+      <form action="/signup" method="POST">
+          <input class="form-button"  type="text" name="fname" placeholder="First Name" required> <br>
+          <input class="form-button"  type="text" name="lname" placeholder="Last Name" required> <br>
+          <input class="form-button"  type="text" name="username" placeholder="Username" required> <br>
+          <input class="form-button" type="text" name="classCode" placeholder="Classroom code" required> <br>
+          <input class="form-button"  type="password" name="password" placeholder="Password" required> <br>
           <input class="form-button" type="submit" value="Create account" id="submit-button">
         </form>
+
+        {% if message %}
+        <p style="color: red;">{{ message }}</p>
+        {% endif %}
+
       {# {% if %}#}
           <a href="{{ url_for('dash_board')}}">
           
           </a>
       {#{% endif %}#}
+
     </div>
 
     <a href="{{ url_for('index')}}">

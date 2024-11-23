@@ -48,11 +48,15 @@
         </div>
 
         <div class="box-2">
-            <a href="{{ url_for('index') }}">
+            <form id="logout-form" action="/logout" method="POST">
                 <button class ="button-2">
                     <p class="button-text-2">LOG OUT</p>
                 </button>
-            </a>
+            </form>
+
+            {% if message %}
+      <p style="color: red;">{{ message }}</p>
+      {% endif %}
         </div>
     </div>
   </body>
