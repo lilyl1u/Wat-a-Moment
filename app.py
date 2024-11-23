@@ -97,21 +97,23 @@ def signup():
         except Exception:
             return render_template('signup.html', error="Unable to connect to the server.")
 
-@app.route('/dashboard')
-def dashboard():
-    return render_template('dashboard.html')
 
 @app.route('/photo')
 def photo():
     return render_template('photo.html')
 
-@app.route('/classphotos')
-def view_class_photos():
-    return render_template('viewclassphotos.html')
 
-@app.route('/yourphotos')
+@app.route('/viewyourphotos')
 def view_your_photos():
     return render_template('viewyourphotos.html')
+
+@app.route('/dashboard')
+def dash_board():
+    return render_template('dashboard.html')
+
+@app.route('/viewclassphotos')
+def view_class_photos():
+    return render_template('viewclassphotos.html')
 
 comments = [
         "cutie!", "stunner!", "looking gorgeous!", "amazing!", 
