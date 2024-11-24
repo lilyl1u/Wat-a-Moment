@@ -243,7 +243,7 @@ class DBService {
     } catch (error) {console.log(error);}
   }
     */
-
+/*
   //get all private photos under one username OR get all public photos under one classCode passed through 'user'
   async getPhoto(user) {
     try {
@@ -259,6 +259,7 @@ class DBService {
     }
     catch (error) {console.log(error);}
   }
+    */
 
   //delete a single photo
   async deletePhoto(photoID) {
@@ -341,7 +342,23 @@ app.get('/getWamUser/:username', (req, res) => {
   });
 });
 });
+//changed angie's code
+app.get('/getPrivatePhotos/:username', (req, res) => {
+  const { username } = req.params;
+  const instanceDB = DBService.getDBServiceInstance();
+  const result = instanceDB.getPhoto(username, 'user');
+  result
+    .then(photos => {
+      const updatedPhotos = photos.map(photo => ({
+        photoID: photo.photoID,
+        photoURL: `https://drive.google.com/thumbnail?id=${photo.photoID}` // Construct the URL
+      }));
+      res.json(updatedPhotos); // Send back with URLs
+    })
+    .catch(err => console.error(err));
+});
 
+/*
 //changed angie's code
 app.get('/getPrivatePhotos/:username', (req, res) => {
   const { username } = req.params;
@@ -350,7 +367,7 @@ app.get('/getPrivatePhotos/:username', (req, res) => {
   result
     .then(photos => {
       const updatedPhotos = photos.map(photo => {
-        const photoURL = `https://drive.google.com/uc?id=${photo.photoID}`; // Construct the URL
+        const photoURL = `https://drive.google.com/thumbail?id=${photo.photoID}`; // Construct the URL
         console.log(`Constructed URL for photoID ${photo.photoID}: ${photoURL}`); // Debug
         return {
           photoID: photo.photoID,
@@ -363,6 +380,7 @@ app.get('/getPrivatePhotos/:username', (req, res) => {
     console.error('Error fetching private photos:', err);
     res.status(500).json({ error: 'Failed to fetch photos' });
 });
+*/
 
 
 /* 
@@ -375,13 +393,23 @@ app.get('/getPrivatePhotos/:username', (req, res) => {
     .catch(err => console.log(err));
 });
 */
+
+//changed angie's code
 app.get('/getPublicPhotos/:classCode', (req, res) => {
   const { classCode } = req.params;
   const instanceDB = DBService.getDBServiceInstance();
   const result = instanceDB.getPhoto(classCode, 'classCode'); //changed angie's code//calls function from DBService class
   result
-    .then(photos => res.json(photos)) //directly sends array of photos
-    .catch(err => console.log(err));
+  .then(photos => {
+    console.log('Raw photos from DB:', photos); // Debug log
+    const updatedPhotos = photos.map(photo => ({
+      photoID: photo.photoID,
+      photoURL: `https://drive.google.com/thumbnail?id=${photo.photoID}` // Construct the URL
+    }));
+    console.log('Updated Photos:', updatedPhotos); // Debug log
+    res.json(updatedPhotos); // Send back with URLs
+  })
+  .catch(err => console.error(err));
 });
 
 //TODO
