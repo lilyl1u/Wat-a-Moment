@@ -305,6 +305,7 @@ def viewyourphotos():
             photos = response.json()  # List of photo objects
         else:
             photos = []  # Default to empty list if API fails
+            print(f"Failed to fetch photos, status code: {response.status_code}")
 
         # Pass photos to the template
         return render_template('viewyourphotos.html', photos=photos)
@@ -354,27 +355,34 @@ def postphoto():
             return f"An error occurred: {str(e)}", 500
 
     elif request.method == 'POST':
-        selected_photos = request.form.getlist('selected_photos')
-        selected_user = request.form.get('selected_user')  # Dropdown selection
-        action = request.form.get('action')
+        # Get the selected photos and users from the form
+        selected_photos = request.form.getlist('selected_photos')  # Get selected photos (list)
+        selected_users = request.form.getlist('selected_users')  # Get selected users (list)
+        action = request.form.get('action')  # Action to be performed (sendToUser, finish, etc.)
 
+        # Validate that at least one photo is selected if action is not finish
         if not selected_photos and action != "finish":
             return "No photos selected.", 400
 
+        # Perform actions based on the selected action
         if action == "postToClass":
             for photo_id in selected_photos:
                 requests.post(f"{API_SERVER}/assignPhotoToUser/{photo_id}/classCode")
         elif action == "sendToSelf":
             for photo_id in selected_photos:
                 requests.post(f"{API_SERVER}/assignPhotoToUser/{photo_id}/CURRENT-SESSION")
-        elif action == "sendToUser" and selected_user:
-            for photo_id in selected_photos:
-                requests.post(f"{API_SERVER}/assignPhotoToUser/{photo_id}/{selected_user}")
+        elif action == "sendToUser" and selected_users:
+            # For each selected user, assign each selected photo to them
+            for user_id in selected_users:
+                for photo_id in selected_photos:
+                    requests.post(f"{API_SERVER}/assignPhotoToUser/{photo_id}/{user_id}")
         elif action == "finish":
             requests.delete(f"{API_SERVER}/deletePhotosForUser/CURRENT-SESSION")
             return redirect('/dashboard')
 
-        return f"Action '{action}' performed on photos {selected_photos} for user {selected_user}.", 200
+        return f"Action '{action}' performed on photos {selected_photos} for users {selected_users}.", 200
+
+
 
 '''
 def postphoto():
