@@ -294,7 +294,23 @@ def viewclassphotos():
 
 @app.route('/yourphotos')
 def viewyourphotos():
-    return render_template('viewyourphotos.html')
+    if 'username' not in session:
+        return redirect(url_for('login'))  # Redirect to login if user not in session
+
+    username = session['username']  # Get logged-in username
+    try:
+        # Fetch private photos for the logged-in user
+        response = requests.get(f"{API_SERVER}/getPrivatePhotos/{username}")
+        if response.status_code == 200:
+            photos = response.json()  # List of photo objects
+        else:
+            photos = []  # Default to empty list if API fails
+
+        # Pass photos to the template
+        return render_template('viewyourphotos.html', photos=photos)
+    except Exception as e:
+        print(f"Error fetching photos for user {username}: {e}")
+        return render_template('viewyourphotos.html', error="Unable to load photos.")
 
 comments = [
         "cutie!", "stunner!", "looking gorgeous!", "amazing!", 
@@ -305,12 +321,113 @@ comments = [
     ]
 
 
-@app.route('/postphoto')
+@app.route('/postphoto', methods=['GET', 'POST'])
+def postphoto():
+    if request.method == 'GET':
+        try:
+            # Fetch photos for CURRENT-SESSION
+            photo_response = requests.get(f"{API_SERVER}/getPrivatePhotos/CURRENT-SESSION")
+            if photo_response.status_code != 200:
+                return "Failed to fetch photos.", 500
+            
+            photos = photo_response.json()[:4]  # Limit to 4 photos
+            photo_urls = [
+                {"id": photo["photoID"], "url": f"https://drive.google.com/uc?id={photo['photoID']}"}
+                for photo in photos
+            ]
+
+            # Fetch users for the dropdown
+            class_code = "SE101"  # Replace with the actual class code for the session
+            user_response = requests.get(f"{API_SERVER}/getAllUsers/{class_code}")
+            if user_response.status_code != 200:
+                return "Failed to fetch users.", 500
+            
+            users = user_response.json()  # Get the list of users
+
+            # Render the template with photos and users
+            return render_template(
+                'postphoto.html',
+                photos=photo_urls,
+                users=users
+            )
+        except Exception as e:
+            return f"An error occurred: {str(e)}", 500
+
+    elif request.method == 'POST':
+        selected_photos = request.form.getlist('selected_photos')
+        selected_user = request.form.get('selected_user')  # Dropdown selection
+        action = request.form.get('action')
+
+        if not selected_photos and action != "finish":
+            return "No photos selected.", 400
+
+        if action == "postToClass":
+            for photo_id in selected_photos:
+                requests.post(f"{API_SERVER}/assignPhotoToUser/{photo_id}/classCode")
+        elif action == "sendToSelf":
+            for photo_id in selected_photos:
+                requests.post(f"{API_SERVER}/assignPhotoToUser/{photo_id}/CURRENT-SESSION")
+        elif action == "sendToUser" and selected_user:
+            for photo_id in selected_photos:
+                requests.post(f"{API_SERVER}/assignPhotoToUser/{photo_id}/{selected_user}")
+        elif action == "finish":
+            requests.delete(f"{API_SERVER}/deletePhotosForUser/CURRENT-SESSION")
+            return redirect('/dashboard')
+
+        return f"Action '{action}' performed on photos {selected_photos} for user {selected_user}.", 200
+
+'''
 def postphoto():
    # photo_captions = get_random_captions()
     #numbered_captions = [f"{caption} (Photo {i + 1} of 4)" for i, caption in enumerate(photo_captions)]
-    captions=random.sample(comments,4)
-    return render_template('postphoto.html', captions=captions)
+    if request.method == 'GET':
+        try:
+            # Fetch photos for CURRENT-SESSION
+            response = requests.get(f"{API_SERVER}/getPrivatePhotos/CURRENT-SESSION")
+            if response.status_code == 200:
+                photos = response.json()  # Retrieve the array of photoIDs
+                # Construct the public Google Drive URLs for the first 4 photos
+                photo_urls = [
+                    {"id": photo["photoID"], "url": f"https://drive.google.com/uc?id={photo['photoID']}"}
+                    for photo in photos[:4]  # Limit to 4 photos
+                ]
+
+                # Generate random captions for each photo
+                captions = random.sample(comments, len(photo_urls))
+
+                return render_template('postphoto.html', photos=photo_urls, captions=captions)
+            else:
+                return "Failed to fetch photos.", 500
+        except Exception as e:
+            return f"An error occurred: {str(e)}", 500
+
+    elif request.method == 'POST':
+        # Handle form submission for selected photos and action
+        selected_photos = request.form.getlist('selected_photos')
+        action = request.form.get('action')
+
+        if not selected_photos:
+            return "No photos selected.", 400
+
+        try:
+            if action == "postToClass":
+                for photo_id in selected_photos:
+                    requests.post(f"{API_SERVER}/assignPhotoToUser/{photo_id}/classCode")
+            elif action == "sendToSelf":
+                for photo_id in selected_photos:
+                    requests.post(f"{API_SERVER}/assignPhotoToUser/{photo_id}/CURRENT-SESSION")
+            elif action == "sendToClassmate":
+                # Handle sending to a specific classmate
+                pass
+
+            if action == "finish":
+                requests.delete(f"{API_SERVER}/deletePhotosForUser/CURRENT-SESSION")
+                return redirect('/dashboard')
+
+            return "Action performed successfully.", 200
+        except Exception as e:
+            return f"An error occurred: {str(e)}", 500
+'''
 
 # Countdown timer routes
 @app.route('/start_countdown', methods=['GET'])

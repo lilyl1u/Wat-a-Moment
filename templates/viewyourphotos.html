@@ -3,48 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post Photo</title>
-    <link rel ="stylesheet" href ="{{ url_for('static', filename='viewyourphotos.css') }}" />
+    <title>Your Photos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='viewyourphotos.css') }}">
 </head>
 <body>
-    <h1>Hey gorgeous! Here are your photos!</h1>
-    
+    <h1>Your Photos</h1>
+
     {% if error %}
     <div class="error-message">{{ error }}</div>
     {% endif %}
 
-    <div class="grid-button-wrapper">
-
-        <div class = "photo-grid">
-            {% if photos %}
-            {% for photo, comment in zip(photos, comments) %}
+    <div class="photo-grid">
+        {% if photos %}
+            {% for photo in photos %}
             <div class="polaroid">
-                <img src="static/photos/emptyPhoto.jpg" alt="photo placeholder" 
-                style="width:100%">
+                <img src="{{ photo.photoURL }}" alt="User Photo" style="width:100%">
                 <div class="container">
-                <p>{{ comment }} </p>
                 </div>
             </div>
             {% endfor %}
         {% else %}
-            {% for _ in range(4) %}
-            <div class="polaroid">
-                <img src="static/photos/emptyPhoto.jpg" alt="photo placeholder" style="width:100%">
-                <div class="container">
-                    <p>No photos yet!</p>
-                </div>
-            </div>
-            {% endfor %}
+            <p>No photos to display!</p>
         {% endif %}
-        </div>
-        <a href="{{ url_for('index')}}">
-            <button class="buttonHomepage">
-            Back to home page
-            </button>
-          </a>
-        </div>
     </div>
 
-
+    <a href="{{ url_for('index') }}">
+        <button class="buttonHomepage">Back to Home Page</button>
+    </a>
 </body>
 </html>

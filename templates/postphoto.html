@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,97 +9,42 @@
 </head>
 <body>
     <h1>Wat-a-Moment</h1>
+<!-- Form to send data to Flask -->
+<form method="POST" action="{{ url_for('postphoto') }}">
+  <!-- Photo Grid -->
+  <div class="photo-grid">
+      {% for photo in photos %}
+      <div class="polaroid">
+          <!-- Hidden checkbox to detect clicks -->
+          <input type="checkbox" id="photo_{{ photo.id }}" name="selected_photos" value="{{ photo.id }}">
+          
+          <!-- Label makes the photo clickable -->
+          <label for="photo_{{ photo.id }}">
+              <img src="{{ photo.url }}" alt="Photo {{ loop.index }}" style="width:100%">
+          </label>
+          <div class="container">
+              <p>Photo {{ loop.index }}</p>
+          </div>
+      </div>
+      {% endfor %}
+  </div>
 
- <!-- on button click (click disply) photo srhinks, use that w3schools code to multiselect
-  no drop down, click photo directly-->
-    
-    <div class="grid-button-wrapper">
+  <!-- User Dropdown -->
+  <label for="user-dropdown">Send to a User:</label>
+  <select id="user-dropdown" name="selected_user">
+      <option value="" disabled selected>Select a user</option>
+      {% for user in users %}
+      <option value="{{ user['id'] }}">{{ user['firstName'] }}</option>
+      {% endfor %}
+  </select>
 
-        <div class = "photo-grid">
-          {#{% for caption in captions %}#}
-            <div class="polaroid">
-              <img src="static/photos/emptyPhoto.jpg" alt="photo placeholder" 
-              style="width:100%">
-                <div class="container">
-                <p>Photo 1 of 4</p>
-                <p>{{ captions[0] }} </p>
-                </div>
-            </div>
-            
-            <div class="polaroid">
-                <img src="static/photos/emptyPhoto.jpg" alt="photo placeholder" 
-                style="width:100%">
-                <div class="container">
-                <p>Photo 2 out of 4 </p>
-                <p>{{ captions[1] }} </p>
-                </div>
-            </div>
-            <div class="polaroid">
-                <img src="static/photos/emptyPhoto.jpg" alt="photo placeholder" 
-                style="width:100%">
-                <div class="container">
-                <p>Photo 3 out of 4 </p>
-                <p>{{ captions[2] }} </p>
-                </div>
-            </div>
-            <div class="polaroid">
-                <img src="static/photos/emptyPhoto.jpg" alt="photo placeholder" 
-                style="width:100%">
-                <div class="container">
-                <p>Photo 4 out of 4 </p>
-                <p>{{ captions[3] }} </p>
-
-                </div>
-            </div>
-            {#{% end for%}#}
-        </div>
-
-        <div class="button-container">
-            <div class="dropdown">
-                <button class="dropbtn">Select photo(s) for group</button>
-                <!--
-                <div class="dropdown-content">
-                  <a href="#">Photo 1</a>
-                  <a href="#">Photo 2</a>
-                  <a href="#">Photo 3</a>
-                  <a href="#">Photo 4</a>
-                </div>
-                -->
-              </div>
-
-            <div class="dropdown">
-                <button class="dropbtn">Dropdown to select user(s)</button>
-                
-                <div class="dropdown-content">
-                  <a href="#">Username 1</a>
-                  <a href="#">Username 2</a>
-                  <a href="#">Username 3</a>
-                </div>
-                
-              </div>
-
-              <div class="dropdown">
-                <button class="dropbtn">Select photo(s) for profile</button>
-                <!--
-                <div class="dropdown-content">
-                  <a href="#">Photo 1</a>
-                  <a href="#">Photo 2</a>
-                  <a href="#">Photo 3</a>
-                  <a href="#">Photo 4</a>
-                </div>
-              -->
-              </div>
-
-              <a href="{{ url_for('index')}}">
-                <button class="buttonHomepage">
-                Back to home page
-                </button>
-              </a>
-
-
-        </div>
-    </div>
-
-
+  <!-- Action Buttons -->
+  <div class="button-container">
+      <button type="submit" name="action" value="postToClass">Post to Class</button>
+      <button type="submit" name="action" value="sendToSelf">Send to Yourself</button>
+      <button type="submit" name="action" value="sendToUser">Send to Selected User</button>
+      <button type="submit" name="action" value="finish">Finish Photos</button>
+  </div>
+</form>
 </body>
 </html>

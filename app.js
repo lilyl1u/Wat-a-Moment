@@ -31,7 +31,6 @@ app.use(session({
   }
 }));
 
-
 //===SQL DB===
 let instance = null;
 const db = mysql.createPool({ //connect sql database
@@ -47,6 +46,7 @@ db.getConnection((err) => {
   }
   console.log("[DB] mysql pool connected");
 });
+
 /*
 app.use((req, _, next) => {
   console.log(`[${req.method}] ${req.url} - Body: ${JSON.stringify(req.body)}`);
@@ -195,7 +195,7 @@ class DBService {
   async assignPhotoToUser(photoID, user){
     try {
       const response = await new Promise((resolve, reject) => {
-        const sql = "UPDATE wamUsers SET user = ? WHERE photoID = ?;";
+        const sql = "UPDATE allPhotos SET user = ? WHERE photoID = ?;";
         db.query(sql, [user, photoID], (err, result) => { 
           resolve(result);
         });
@@ -206,10 +206,30 @@ class DBService {
   }
 
   //check which user the photo belongs to (for verifying that it is CURRENT)
+  //changed angie's code:
+  async getPhoto(identifier, type = 'user') {
+    try {
+        const response = await new Promise((resolve, reject) => {
+            const sql = type === 'user'
+                ? "SELECT photoID FROM allPhotos WHERE user = ?;"
+                : "SELECT photoID FROM allPhotos WHERE classCode = ?;";
+            db.query(sql, [identifier], (err, result) => {
+                if (err) reject(new Error(err.message));
+                resolve(result);
+            });
+        });
+        console.log(response);
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+  /*
   async getPhotoUser(photoID) {
     try {
       const user = await new Promise((resolve, reject) => {
-        const sql = "SELECT user FROM wamUsers WHERE photoID = ?;";
+        const sql = "SELECT user FROM allPhotos WHERE photoID = ?;";
         db.query(sql, [photoID], (err, result) => {
           if (err) reject(new Error(err.message));
           // Assuming the result is an array and we need the `user` field from the first entry
@@ -222,6 +242,7 @@ class DBService {
       return user;
     } catch (error) {console.log(error);}
   }
+    */
 
   //get all private photos under one username OR get all public photos under one classCode passed through 'user'
   async getPhoto(user) {
@@ -321,20 +342,43 @@ app.get('/getWamUser/:username', (req, res) => {
 });
 });
 
-
-
+//changed angie's code
 app.get('/getPrivatePhotos/:username', (req, res) => {
   const { username } = req.params;
   const instanceDB = DBService.getDBServiceInstance();
-  const result = instanceDB.getPhotos(username); //calls function from DBService class
+  const result = instanceDB.getPhoto(username, 'user');
+  result
+    .then(photos => {
+      const updatedPhotos = photos.map(photo => {
+        const photoURL = `https://drive.google.com/uc?id=${photo.photoID}`; // Construct the URL
+        console.log(`Constructed URL for photoID ${photo.photoID}: ${photoURL}`); // Debug
+        return {
+          photoID: photo.photoID,
+          photoURL: photoURL
+        };
+      });
+      console.log('Updated Photos:', updatedPhotos); // Debug
+      res.json(updatedPhotos); // Send back with URLs
+    })
+    console.error('Error fetching private photos:', err);
+    res.status(500).json({ error: 'Failed to fetch photos' });
+});
+
+
+/* 
+app.get('/getPrivatePhotos/:username', (req, res) => {
+  const { username } = req.params;
+  const instanceDB = DBService.getDBServiceInstance();
+  const result = instanceDB.getPhoto(username, 'user'); //changed angie's code //calls function from DBService class
   result
     .then(photos => res.json(photos)) //directly sends array of photos
     .catch(err => console.log(err));
 });
+*/
 app.get('/getPublicPhotos/:classCode', (req, res) => {
   const { classCode } = req.params;
   const instanceDB = DBService.getDBServiceInstance();
-  const result = instanceDB.getPhotos(classCode); //calls function from DBService class
+  const result = instanceDB.getPhoto(classCode, 'classCode'); //changed angie's code//calls function from DBService class
   result
     .then(photos => res.json(photos)) //directly sends array of photos
     .catch(err => console.log(err));
@@ -347,6 +391,7 @@ app.get('/getPublicPhotos/:classCode', (req, res) => {
 // Fetch all users under a class code
 app.get('/getAllUsers/:classCode', (req, res) => {
   const instanceDB = DBService.getDBServiceInstance();
+  const { classCode } = req.params; //changed this from angie's
   const result = instanceDB.getAllUsers(classCode); // Calls function from DBService class
   result
     .then(users => res.json(users)) // Sends the array of usernames directly
