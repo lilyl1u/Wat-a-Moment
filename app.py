@@ -290,8 +290,48 @@ def photo():
 
 @app.route('/classphotos')
 def viewclassphotos():
-    return render_template('viewclassphotos.html')
+    if 'username' not in session:
+        return redirect(url_for('login'))  # Redirect to login if user not in session
+    classCode = 'SE101'
+    try:
+        # Fetch private photos for the logged-in user
+        response = requests.get(f"{API_SERVER}/getPublicPhotos/{classCode}")
+        print(f"API Response Status: {response.status_code}")  # Debug response status
+        print(f"API Response Content: {response.json()}")  # Debug response content
+        
+        if response.status_code == 200:
+            photos = response.json()  # List of photo objects
+        else:
+            photos = []  # Default to empty list if API fails
 
+        # Pass photos to the template
+        return render_template('viewclassphotos.html', photos=photos)
+    except Exception as e:
+        print(f"Error fetching photos for class {e}")
+        return render_template('viewclassphotos.html', error="Unable to load photos.")
+'''
+@app.route('/yourphotos')
+def viewyourphotos():
+    if 'username' not in session:
+        return redirect(url_for('login'))  # Redirect to login if user not in session
+
+    username = session['username']  # Get logged-in username
+    try:
+        # Fetch photoIDs for the logged-in user
+        response = requests.get(f"{API_SERVER}/getPrivatePhotos/{username}")
+        if response.status_code == 200:
+            photoIDs = response.json()  # List of photo IDs
+            print(f"Photo IDs for {username}: {photoIDs}")  # Debug log
+        else:
+            photoIDs = []  # Default to empty list if API fails
+            print(f"Failed to fetch photos: {response.status_code}")  # Debug log
+
+        # Pass photoIDs to the template
+        return render_template('viewyourphotos.html', photoIDs=photoIDs)
+    except Exception as e:
+        print(f"Error fetching photos for user {username}: {e}")
+        return render_template('viewyourphotos.html', error="Unable to load photos.")
+'''
 @app.route('/yourphotos')
 def viewyourphotos():
     if 'username' not in session:
@@ -305,7 +345,6 @@ def viewyourphotos():
             photos = response.json()  # List of photo objects
         else:
             photos = []  # Default to empty list if API fails
-            print(f"Failed to fetch photos, status code: {response.status_code}")
 
         # Pass photos to the template
         return render_template('viewyourphotos.html', photos=photos)
