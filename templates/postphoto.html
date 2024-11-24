@@ -29,14 +29,21 @@
       {% endfor %}
   </div>
 
-  <!-- User Dropdown -->
-  <label for="user-dropdown">Send to a User:</label>
-  <select id="user-dropdown" name="selected_user">
-      <option value="" disabled selected>Select a user</option>
-      {% for user in users %}
-      <option value="{{ user['id'] }}">{{ user['firstName'] }}</option>
-      {% endfor %}
-  </select>
+<!-- Form to send data to Flask -->
+<form method="POST" action="{{ url_for('postphoto') }}">
+    <!-- User Selection Dropdown with checkboxes -->
+    <label for="user-checkboxes">Send to Users:</label>
+    <div class="dropdown">
+        <button class="dropbtn">Select Users</button>
+        <div class="dropdown-content">
+            {% for user in users %}
+                <label>
+                    <input type="checkbox" name="selected_users" value="{{ user['id'] }}">
+                    {{ user['firstName'] }}
+                </label><br>
+            {% endfor %}
+        </div>
+    </div>
 
   <!-- Action Buttons -->
   <div class="button-container">
