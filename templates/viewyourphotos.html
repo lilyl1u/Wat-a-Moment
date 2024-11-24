@@ -8,18 +8,18 @@
 </head>
 <body>
     <h1>Your Photos</h1>
-
+    
     {% if error %}
     <div class="error-message">{{ error }}</div>
     {% endif %}
 
     <div class="photo-grid">
-        {% if photos %}
+        {% if photos and photos|length > 0 %}
             {% for photo in photos %}
             <div class="polaroid">
                 <img src="{{ photo.photoURL }}" alt="User Photo" style="width:100%">
                 <div class="container">
-                </div>
+            </div>
             </div>
             {% endfor %}
         {% else %}
@@ -32,3 +32,4 @@
     </a>
 </body>
 </html>
+
