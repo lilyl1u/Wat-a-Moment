@@ -3,42 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Class Photos</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='viewclassphotos.css') }}" />
+    <title>Your Photos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='viewyourphotos.css') }}">
 </head>
 <body>
-    <h1>-A custom collection of your class photos-</h1>
-    
+    <h1>Your Photos</h1>
+
     {% if error %}
     <div class="error-message">{{ error }}</div>
     {% endif %}
 
-    <div class="grid-button-wrapper">
-        <div class="photo-grid">
-            {% if photos %}
-                {% for photo, comment in zip(photos, comments) %}
-                <div class="polaroid">
-                    <img src="{{ photo.photoFile }}" alt="Class photo" style="width:100%">
-                    <div class="container">
-                        <p>{{ comment }}</p>
-                    </div>
+    <div class="photo-grid">
+        {% if photos and photos|length > 0 %}
+            {% for photo in photos %}
+            <div class="polaroid">
+                <img src="{{ photo.photoURL }}" alt="User Photo" style="width:100%">
+                <div class="container">
                 </div>
-                {% endfor %}
-            {% else %}
-                {% for _ in range(4) %}
-                <div class="polaroid">
-                    <img src="static/photos/emptyPhoto.jpg" alt="photo placeholder" style="width:100%">
-                    <div class="container">
-                        <p>No class photos yet!</p>
-                    </div>
-                </div>
-                {% endfor %}
-            {% endif %}
-        </div>
-        
-        <a href="{{ url_for('index')}}">
-            <button class="buttonHomepage">Back to home page</button>
-        </a>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No photos to display!</p>
+        {% endif %}
     </div>
+
+    <a href="{{ url_for('index') }}">
+        <button class="buttonHomepage">Back to Home Page</button>
+    </a>
 </body>
 </html>
