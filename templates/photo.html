@@ -64,29 +64,25 @@
 
     {% if countdown_active %}
     <script>
+        // Initialize countdown time
+        var countdownTime = 5;
+
         // Function to update the countdown every second
         function updateCountdown() {
-            $.ajax({
-                url: "{{ url_for('update_countdown') }}",  // Correct URL for the endpoint
-                method: "POST",
-                success: function(data) {
-                    if (data.active) {
-                        // Update countdown timer
-                        $("#countdown-timer").text(data.countdown);
-                        setTimeout(updateCountdown, 1000); // Call this function again after 1 second
-                    } else {
-                        // Countdown finished, hide countdown and do something else (optional)
-                        $("#countdown-display").hide();
-                    }
-                },
-                error: function() {
-                    alert("Error updating countdown.");
-                }
-            });
+            if (countdownTime > 0) {
+                countdownTime--;  // Decrease the countdown time by 1
+                $("#countdown-timer").text(countdownTime);  // Update countdown display
+                setTimeout(updateCountdown, 1000);  // Call this function again after 1 second
+            } else {
+                // Countdown finished, hide countdown and do something else (optional)
+                $("#countdown-display").hide();
+            }
         }
 
         // Start updating countdown when page loads
-        updateCountdown();
+        $(document).ready(function() {
+            updateCountdown();
+        });
     </script>
     {% endif %}
 </body>
