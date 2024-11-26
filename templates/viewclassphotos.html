@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Photos</title>
+    <title>Class Photos</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='viewyourphotos.css') }}">
 </head>
 <body>
-    <h1>Your Photos</h1>
+    <h1>Your SE 101 Class Photos</h1>
 
     {% if error %}
     <div class="error-message">{{ error }}</div>
@@ -27,8 +27,8 @@
         {% endif %}
     </div>
 
-    <a href="{{ url_for('index') }}">
-        <button class="buttonHomepage">Back to Home Page</button>
+    <a href="{{ url_for('dashboard') }}">
+        <button class="buttonHomepage">Back to Dashboard</button>
     </a>
 </body>
 </html>
