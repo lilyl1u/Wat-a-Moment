@@ -275,6 +275,20 @@ class DBService {
       return response;
     } catch (error) {console.log(error);}
   }
+  //delete all photos from a user 
+  async deletePhotoFromUser(photoID) {
+    try {
+      const response = await new Promise((resolve, reject) => {
+        const sql = "DELETE FROM allPhotos WHERE user = ?;";
+        db.query(sql, [photoID], (err, result) => {
+          if (err) reject(new Error(err.message));
+          resolve(result);
+        });
+      });
+      console.log(response);
+      return response;
+    } catch (error) {console.log(error);}
+  }
 
   //delete a user
   async deleteUser(username) {
@@ -586,6 +600,15 @@ app.delete('/deletePhoto/:photoID', (request, response) => {
     .then(data => response.json({success: true, message: "Deleted photo", data: data}))
     .catch(err => console.log(err));
 });
+
+app.delete('/deletePhotoFromUser/:user', (request, response) => {
+  const {user} = request.params;
+  const instanceDB = DBService.getDbServiceInstance();
+  const result = instanceDB.deletePhotoFromUser(user);
+  result
+    .then(data => response.json({success: true, message: "Deleted photo from user", data: data}))
+    .catch(err => console.log(err));
+});
 //delete wamUser
 app.delete('/deleteUser/:username', (request, response) => {
   const {photoID} = request.params;
@@ -639,3 +662,4 @@ app.get('/post-photo', (req, res) => {
   else {res.redirect('/login'); // redirect to login if not logged in
   }
 }); */
+
