@@ -24,7 +24,6 @@ connection = pymysql.connect(
     database= 'db101_a498wang'
 )
 '''
-
 # Routes for views
 @app.route('/')
 def index():
@@ -372,7 +371,7 @@ def postphoto():
             
             photos = photo_response.json()[:4]  # Limit to 4 photos
             photo_urls = [
-                {"id": photo["photoID"], "url": f"https://drive.google.com/uc?id={photo['photoID']}"}
+                {"id": photo["photoID"], "url": f"https://drive.google.com/thumbnail?id={photo['photoID']}"}
                 for photo in photos
             ]
 
@@ -398,7 +397,9 @@ def postphoto():
         selected_photos = request.form.getlist('selected_photos')  # Get selected photos (list)
         selected_users = request.form.getlist('selected_users')  # Get selected users (list)
         action = request.form.get('action')  # Action to be performed (sendToUser, finish, etc.)
-
+        username = session['username']  # Get logged-in username
+        classCode='SE101'
+        
         # Validate that at least one photo is selected if action is not finish
         if not selected_photos and action != "finish":
             return "No photos selected.", 400
@@ -406,17 +407,21 @@ def postphoto():
         # Perform actions based on the selected action
         if action == "postToClass":
             for photo_id in selected_photos:
-                requests.post(f"{API_SERVER}/assignPhotoToUser/{photo_id}/classCode")
+                requests.post(f"{API_SERVER}/assignPhotoToUser/{photo_id}/{classCode}")
+            return redirect('/postphoto')
         elif action == "sendToSelf":
             for photo_id in selected_photos:
-                requests.post(f"{API_SERVER}/assignPhotoToUser/{photo_id}/CURRENT-SESSION")
+                requests.post(f"{API_SERVER}/assignPhotoToUser/{photo_id}/{username}")
+            return redirect('/postphoto')
         elif action == "sendToUser" and selected_users:
             # For each selected user, assign each selected photo to them
             for user_id in selected_users:
                 for photo_id in selected_photos:
                     requests.post(f"{API_SERVER}/assignPhotoToUser/{photo_id}/{user_id}")
+                return redirect('/postphoto')
         elif action == "finish":
-            requests.delete(f"{API_SERVER}/deletePhotosForUser/CURRENT-SESSION")
+            user='CURRENT-SESSION'
+            requests.delete(f"{API_SERVER}/deletePhotosFromUser/{user}")
             return redirect('/dashboard')
 
         return f"Action '{action}' performed on photos {selected_photos} for users {selected_users}.", 200
@@ -510,3 +515,4 @@ def get_random_captions(num_captions=4):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
