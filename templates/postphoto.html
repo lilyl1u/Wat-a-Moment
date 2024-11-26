@@ -20,6 +20,7 @@
           
           <!-- Label makes the photo clickable -->
           <label for="photo_{{ photo.id }}">
+            <p>{{ photo.url }}</p>
               <img src="{{ photo.url }}" alt="Photo {{ loop.index }}" style="width:100%">
           </label>
           <div class="container">
@@ -28,9 +29,6 @@
       </div>
       {% endfor %}
   </div>
-
-<!-- Form to send data to Flask -->
-<form method="POST" action="{{ url_for('postphoto') }}">
     <!-- User Selection Dropdown with checkboxes -->
     <label for="user-checkboxes"></label>
     <div class="dropdown">
@@ -39,7 +37,7 @@
             {% for user in users %}
                 <label>
                     <input type="checkbox" name="selected_users" value="{{ user['id'] }}">
-                    {{ user['firstName'] }}
+                    {{ user['username'] }}
                 </label><br>
             {% endfor %}
         </div>
@@ -55,3 +53,4 @@
 </form>
 </body>
 </html>
+
