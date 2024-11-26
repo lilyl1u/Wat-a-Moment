@@ -32,9 +32,9 @@
 <!-- Form to send data to Flask -->
 <form method="POST" action="{{ url_for('postphoto') }}">
     <!-- User Selection Dropdown with checkboxes -->
-    <label for="user-checkboxes">Send to Users:</label>
+    <label for="user-checkboxes"></label>
     <div class="dropdown">
-        <button class="dropbtn">Select Users</button>
+        <button class="dropbtn">Send to users (Hover)</button>
         <div class="dropdown-content">
             {% for user in users %}
                 <label>
