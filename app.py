@@ -9,7 +9,9 @@ from flask_session import Session
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Needed for session handling
-
+# Track countdown state and time
+countdown_active = True
+seconds = 6
 API_SERVER = "http://localhost:3000"
 
 app.secret_key = 'watamoment123'
@@ -283,9 +285,22 @@ def dashboard():
         return redirect(url_for('login'))
     return render_template('dashboard.html')
 
-@app.route('/photo')
+@app.route('/photo')  # Change this route to '/photo' or whatever fits your use case
 def photo():
-    return render_template('photo.html')
+    global countdown_active, seconds
+    return render_template('photo.html', countdown_active=countdown_active, seconds=seconds)
+
+@app.route('/update_countdown', methods=['POST'])
+def update_countdown():
+    global seconds, countdown_active
+
+    # Decrease countdown every second until it reaches 0
+    if countdown_active and seconds > 0:
+        seconds -= 1
+    else:
+        countdown_active = False
+
+    return jsonify({'active': countdown_active, 'countdown': seconds})
 
 @app.route('/classphotos')
 def viewclassphotos():
@@ -481,24 +496,7 @@ def postphoto():
             return f"An error occurred: {str(e)}", 500
 '''
 
-# Countdown timer routes
-@app.route('/start_countdown', methods=['GET'])
-def start_countdown():
-    session['countdown'] = 5
-    return render_template('photo.html', 
-                           countdown_active=True, 
-                           seconds=session['countdown'])
 
-@app.route('/update_countdown', methods=['POST'])
-def update_countdown():
-    if 'countdown' in session:
-        if session['countdown'] > 0:
-            session['countdown'] -= 1
-            return jsonify({'countdown': session['countdown'], 'active': True})
-        else:
-            session.pop('countdown', None)  # Clear countdown from session
-            return jsonify({'countdown': 0, 'active': False})
-    return jsonify({'countdown': 0, 'active': False})
 
 # Random caption generation
 '''
